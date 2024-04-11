@@ -21,7 +21,8 @@ This addresses limitations of the base nivo funnel chart including: insufficent 
 * [ ] Collapsable chart segments (TODO)
 
 ### Example: 
-
+![horisontal funnel](https://github.com/ryan-n-may/nivo_responsivefunnelplus/blob/main/githubimages/horisontalfunnel.png)
+![vertical funnel](https://github.com/ryan-n-may/nivo_responsivefunnelplus/blob/main/githubimages/verticalfunnel.png)
 
 ### Usage: 
 ```JSX
