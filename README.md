@@ -119,4 +119,5 @@ return(
     >
 )
 ```
+
 ![DEMO_IMAGE]("https://raw.githubusercontent.com/ryan-n-may/nivo_responsivefunnelplus/main/githubimages/CHART_DEMO.png")
