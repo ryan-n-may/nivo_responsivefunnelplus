@@ -120,4 +120,6 @@ return(
 )
 ```
 
-[DEMO]("github.com/ryan-n-may/nivo_responsivefunnelplus/blob/main/githubimages/CHART_DEMO.png")
+![DEMO]("https://github.com/ryan-n-may/nivo_responsivefunnelplus/blob/main/githubimages/CHART_DEMO.png?raw=true")
+
+
