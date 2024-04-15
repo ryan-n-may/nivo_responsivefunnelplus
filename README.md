@@ -120,6 +120,6 @@ return(
 )
 ```
 
-![DEMO]("https://github.com/ryan-n-may/nivo_responsivefunnelplus/blob/main/githubimages/CHART_DEMO.png?raw=true")
+<img src='./githubimages/CHART_DEMO.png' width='100%' >
 
 
