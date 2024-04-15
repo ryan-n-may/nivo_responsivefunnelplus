@@ -109,6 +109,7 @@ export interface FunnelCommonProps<D extends FunnelDatum> {
 
     labelSpacing: number
     labelDirection: 'row' | 'column'
+    labelStyle: 'verbose' | 'pretty'
 
     labelColor: InheritedColorConfig<FunnelPart<D>>
     sectionLabelColor: InheritedColorConfig<FunnelPart<D>>
@@ -143,6 +144,8 @@ export interface FunnelCommonProps<D extends FunnelDatum> {
     ariaDescribedBy: AriaAttributes['aria-describedby']
 
     annotations: AnnotationMatcher<FunnelPart<D>>[]
+
+
 }
 
 export type FunnelSvgProps<D extends FunnelDatum> = Partial<FunnelCommonProps<D>> &

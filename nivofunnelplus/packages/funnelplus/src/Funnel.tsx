@@ -5,7 +5,8 @@ import { svgDefaultProps } from './props'
 import { useFunnel } from './hooks'
 import { Parts } from './Parts'
 import { Area, Line } from 'd3-shape'
-import { PartLabels, SectionLabels } from './PartLabels'
+import { PartLabels } from './PartLabels'
+import { SectionLabels } from './SectionLabels'
 import { Separators } from './Separators'
 import { FunnelAnnotations } from './FunnelAnnotations'
 import { BoxPosition, FunnelCustomLayerProps, FunnelDatum, FunnelLayerId, FunnelPart, FunnelSvgProps, Position, SeparatorProps } from './types'
@@ -48,6 +49,7 @@ const InnerFunnel = <D extends FunnelDatum>({
 
     labelSpacing = svgDefaultProps.labelSpacing,
     labelDirection = svgDefaultProps.labelDirection,
+    labelStyle = svgDefaultProps.labelStyle,
     
     enableLegend = svgDefaultProps.enableLegend,
     legendItemDirection = svgDefaultProps.legendItemDirection,
@@ -110,7 +112,7 @@ const InnerFunnel = <D extends FunnelDatum>({
         dataArray.map(
             (d, index) => {
                 const diff = (direction == 'vertical' ? width : height) 
-                    * ((getDatasetMax(d) - getDatasetMax(dataArray[maxIndex])) 
+                    * ((getDatasetMax(dataArray[maxIndex]) - getDatasetMax(d)) 
                     / (getDatasetMax(dataArray[maxIndex]) + getDatasetMax(d)))
                 const {
                     areaGenerator,
@@ -202,8 +204,6 @@ const InnerFunnel = <D extends FunnelDatum>({
         afterSeparatorsArray.push(afterSeparators);
         customLayerPropsArray. push(customLayerProps);
     } 
-    
-    
     const layerById: Record<FunnelLayerId, ReactNode> = {
         separators: null,
         parts: null,
@@ -212,7 +212,6 @@ const InnerFunnel = <D extends FunnelDatum>({
         axislabels: null,
         legend: null,
     }
-
     if (layers.includes('separators')) {
         layerById.separators = (
             <>
@@ -226,7 +225,6 @@ const InnerFunnel = <D extends FunnelDatum>({
             </>
         )
     }
-
     if (layers.includes('parts')) {
         layerById.parts = (
             <>
@@ -241,23 +239,20 @@ const InnerFunnel = <D extends FunnelDatum>({
             </>
         )
     }
-
     if (layers.includes('labels') && enableLabel) {
         layerById.labels = (
             <>
                 { partsArray.map((_, index) => {
-                    return( <PartLabels<D> key="labels" parts={partsArray[index]} partIndex={index} labelFormat={labelFormat} itemSpacing={labelSpacing} direction={labelDirection}/> )
+                    return( <PartLabels<D> key="labels" parts={partsArray[index]} partIndex={index} labelFormat={labelFormat} labelStyle={labelStyle} itemSpacing={labelSpacing} direction={labelDirection}/> )
                 })}         
             </>
         )
     }
-
     if (layers.includes('axislabels') && enableAxisLabel) {
         layerById.axislabels = (
             <SectionLabels<D> key="labels" parts={partsArray} margin={margin} direction={direction} labelColor={sectionLabelColor} /> 
         )
     }
-
     let legends : FunnelLegendProps[] = [];
     partsArray.map((part) => {
         const funnelLegend  = {
@@ -269,56 +264,40 @@ const InnerFunnel = <D extends FunnelDatum>({
         }
         legends.push(funnelLegend);
     })
-    
-
     if (layers.includes('legend') && enableLegend) {
         layerById.legend = (
-            <>
-                <FunnelLegend 
-                    props = {legends}
-                    innerWidth={innerWidth}
-                    innerHeight={innerHeight}
-                    itemDirection={legendItemDirection}
-                    direction={legendLayout}
-                    anchor={legendAnchor}
-                    symbolShape={legendSymbolShape}
-                />
-            </>
+            <FunnelLegend 
+                props = {legends}
+                innerWidth={innerWidth}
+                innerHeight={innerHeight}
+                itemDirection={legendItemDirection}
+                direction={legendLayout}
+                anchor={legendAnchor}
+                symbolShape={legendSymbolShape}
+            />
         )
     }
-
-   
-
     if (layers?.includes('annotations')) {
         layerById.annotations = (
             <FunnelAnnotations<D> key="annotations" parts={partsArray[0]} annotations={annotations} />
         )
     }
-
-    //<Legend dataset={data[0].dataset} color={parts[0].color } />
-
-    
-
     return (
-        <>
-            <SvgWrapper
-                width={outerWidth}
-                height={outerHeight}
-                margin={margin}
-                role={role}
-                ariaLabel={ariaLabel}
-                ariaLabelledBy={ariaLabelledBy}
-                ariaDescribedBy={ariaDescribedBy}
-            >
-                {layers.map((layer, i) => {
-                    if (typeof layer === 'function') {
-                        return <Fragment key={i}>{createElement(layer, customLayerPropsArray[1])}</Fragment>
-                    }
-
-                    return layerById?.[layer] ?? null
-                })}
-            </SvgWrapper>
-        </>
+       <SvgWrapper
+            width={outerWidth}
+            height={outerHeight}
+            margin={margin}
+            role={role}
+            ariaLabel={ariaLabel}
+            ariaLabelledBy={ariaLabelledBy}
+            ariaDescribedBy={ariaDescribedBy}>
+            {layers.map((layer, i) => {
+                if (typeof layer === 'function') {
+                    return <Fragment key={i}>{createElement(layer, customLayerPropsArray[1])}</Fragment>
+                }
+                return layerById?.[layer] ?? null
+            })}
+        </SvgWrapper>
     )
 }
 
@@ -337,9 +316,7 @@ export const Funnel = <D extends FunnelDatum = FunnelDatum>({
             motionConfig,
             renderWrapper,
             theme,
-        }}
-    >
+        }}>
         <InnerFunnel<D> isInteractive={isInteractive} {...otherProps} />
-        
     </Container>
 )

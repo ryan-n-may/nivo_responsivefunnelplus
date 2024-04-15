@@ -1,8 +1,6 @@
 import React from 'react'
-import { Margin } from '@nivo/core'
-import { PartLabel, SectionLabel } from './PartLabel'
-import { FunnelDatum, FunnelDirection, FunnelPart } from './types'
-import { InheritedColorConfig } from '@nivo/colors'
+import { PartLabel, PartLabelPretty } from './PartLabel'
+import { FunnelDatum, FunnelPart } from './types'
 
 interface PartLabelsProps<D extends FunnelDatum> {
     parts: FunnelPart<D>[]
@@ -10,9 +8,10 @@ interface PartLabelsProps<D extends FunnelDatum> {
     itemSpacing: number,
     direction: 'column' | 'row'
     labelFormat?: { (label: string): string }
+    labelStyle: 'verbose' | 'pretty'
 }
 
-export const PartLabels = <D extends FunnelDatum>({ parts, partIndex, labelFormat, itemSpacing, direction }: PartLabelsProps<D>) => {
+export const PartLabels = <D extends FunnelDatum>({ parts, partIndex, labelFormat, labelStyle, itemSpacing, direction }: PartLabelsProps<D>) => {
     const itemWidth = 100;
     const itemHeight = 20;
 
@@ -24,36 +23,32 @@ export const PartLabels = <D extends FunnelDatum>({ parts, partIndex, labelForma
 
     return(
         <>
-            {parts.map(part => (
-                <PartLabel 
-                    key={part.data.id} 
-                    part={part} 
-                    partIndex={partIndex} 
-                    step={{x: xStep, y: yStep}} 
-                    offset={{x: xOffset, y: yOffset}}
-                    labelFormat={labelFormat}/>
-            ))}
+            { labelStyle == 'pretty' ? 
+                parts.map(part => ( 
+                    <PartLabelPretty 
+                        key={part.data.id} 
+                        part={part} 
+                        borderColor={part.color}
+                        partIndex={partIndex} 
+                        step={{x: xStep, y: yStep}} 
+                        offset={{x: xOffset, y: yOffset}}
+                        />
+                ))
+            :
+                parts.map(part => ( 
+                    <PartLabel 
+                        key={part.data.id} 
+                        part={part} 
+                        labelFormat={labelFormat}
+                        partIndex={partIndex} 
+                        step={{x: xStep, y: yStep}} 
+                        offset={{x: xOffset, y: yOffset}}
+                        />  
+                ))
+            }
         </>
     )
 }
 
-interface SectionLabelsProps<D extends FunnelDatum> {
-    parts: FunnelPart<D>[][]
-    margin?: Margin
-    direction?: FunnelDirection
-    labelColor?: InheritedColorConfig<FunnelPart<D>>
-}
-
-export const SectionLabels = <D extends FunnelDatum>({ 
-    parts, 
-    margin,
-    direction = 'vertical',
-    labelColor = 'black'
-}: SectionLabelsProps<D>) => (
-    <>
-        {parts[0].map(part => (
-            <SectionLabel key={part.data.id} part={part} margin={margin} direction={direction} sectionColor={labelColor}/>
-        ))}
-    </>
-)
+//labelFormat={labelFormat}
 

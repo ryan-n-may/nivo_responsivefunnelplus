@@ -1,4 +1,3 @@
-// @ts-ignore
 import { motionDefaultProps } from '@nivo/core'
 import { FunnelLayerId } from './types'
 
@@ -22,6 +21,7 @@ export const svgDefaultProps = {
 
     labelSpacing: 20,
     labelDirection: 'column' as 'column' | 'row',
+    labelStyle: 'pretty' as 'verbose' | 'pretty',
 
     labelColor: { theme: 'background' },
     sectionLabelColor: {theme: 'background'},

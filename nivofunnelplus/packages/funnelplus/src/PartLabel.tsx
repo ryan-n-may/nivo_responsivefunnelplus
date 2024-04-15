@@ -2,7 +2,6 @@ import React from 'react'
 import { useSpring, animated } from '@react-spring/web'
 import { useTheme, useMotionConfig, Margin } from '@nivo/core'
 import { FunnelDatum, FunnelPart } from './types'
-import { InheritedColorConfig } from '@nivo/colors';
 
 
 interface PartLabelProps<D extends FunnelDatum> {
@@ -47,41 +46,51 @@ export const PartLabel = <D extends FunnelDatum>({
     )
 }
 
-interface SectionLabelProps<D extends FunnelDatum> {
+interface PartLabelPrettyProps<D extends FunnelDatum> {
     part: FunnelPart<D>
-    sectionColor: InheritedColorConfig<FunnelPart<D>>
-    margin?: Margin
-    direction?: string
+    partIndex: number
+    borderColor: string
+    step: {x: number, y: number}
+    offset: {x: number, y: number}
 }
 
-export const SectionLabel = <D extends FunnelDatum>({ 
+export const PartLabelPretty = <D extends FunnelDatum>({
     part, 
-    sectionColor, 
-    margin, 
-    direction  
-}: SectionLabelProps<D>) => {
+    partIndex, 
+    borderColor,
+    step,
+    offset,
+}: PartLabelPrettyProps<D>) => {
     const theme = useTheme()
     const { animate, config: motionConfig } = useMotionConfig()
 
     const animatedProps = useSpring({
-        transform: direction == 'vertical' ? `translate(${-(margin?.left || 0)}, ${part.y})` : `translate(${part.x}, ${-(margin?.top || 0)})`,
-        color: sectionColor,
+        transform: `translate(${part.x - (step.x * partIndex) + offset.x}, ${part.y - (step.y * partIndex) + offset.y})`,
+        color: part.labelColor,
         config: motionConfig,
         immediate: !animate,
     })
 
     return (
-        <animated.g transform={animatedProps.transform}>
+        <>
+        <animated.g 
+            fill={borderColor}
+            transform={animatedProps.transform}>
+                <animated.rect width={50} height={20} rx={5} x={-25} y = {-10}/>
+        </animated.g>
+        <animated.g
+            transform={animatedProps.transform}>
             <animated.text
-                textAnchor = {direction == "vertical" ? "left" : "middle"}
-                dominantBaseline = {direction == "vertical" ? "central" : "hanging"}
+                textAnchor="middle"
+                dominantBaseline="central"
                 style={{
                     ...theme.labels.text,
-                    fill: sectionColor.toString(),
+                    fill: animatedProps.color,
                     pointerEvents: 'none',
                 }}>
-                {part.data.label}
+                {part.formattedValue}
             </animated.text>
         </animated.g>
+        </>
     )
 }
