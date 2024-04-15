@@ -1,6 +1,0 @@
-export * from './defaults'
-export * from './props'
-export * from './ThemedBar'
-export * from './ThemedHeatMap'
-export * from './ThemedLine'
-export * from './ThemedRadialBar'
