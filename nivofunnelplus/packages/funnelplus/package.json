@@ -1,6 +1,6 @@
 {
   "name": "@ryan-n-may/funnelplus",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "An extension of @nivo/funnel that extends features and functionality.",
   "main": "src/index.ts",
   "directories": {
