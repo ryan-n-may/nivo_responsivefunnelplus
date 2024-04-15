@@ -119,4 +119,4 @@ return(
     >
 )
 ```
-![DEMO_IMAGE]("https://github.com/ryan-n-may/nivo_responsivefunnelplus/main/githubimages/CHART_DEMO.png")
+![DEMO_IMAGE]("https://raw.githubusercontent.com/ryan-n-may/nivo_responsivefunnelplus/main/githubimages/CHART_DEMO.png")
