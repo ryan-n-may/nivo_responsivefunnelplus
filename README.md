@@ -44,7 +44,7 @@ Install Funnel ++ with npm
 ## Documentation
 ```jsx
 <ReactiveFunnelPlus
-    ... />
+    ...={...} />
 ```
 #### Additional paramaters:
 | parameter                | type                                  
@@ -66,6 +66,25 @@ Install Funnel ++ with npm
 | labelColor               | `OrdinalColorScaleConfig<FunnelDatum>`
 | layers                   | `['separators', 'parts', 'labels', 'axislabels', 'legend', 'annotations']`
 
+#### Data input
+A singular data entry (`FunnelDatum[]`) is structured as follows. 
+Adding multiple datasets would require a 2D array (`FunnelDatum[][]`)
+```
+[
+  {
+    id: 'totoff',
+    value: 2000,
+    label: 'Total Offers',
+    dataset: 'Dataset 1'
+  },
+  {
+    id: 'finoff',
+    value: 1200,
+    label: 'Final Offers',
+    dataset: 'Dataset 1'
+  }
+]
+```
 
 ## Usage/Examples
 
