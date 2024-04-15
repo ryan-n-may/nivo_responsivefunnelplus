@@ -36,6 +36,18 @@ Install Funnel ++ with npm
  "@ryan-n-may/funnelplus": "1.2.0"
 ```
 
+## Dependencies
+- @nivo/annotations
+- @nivo/colors
+- @nivo/core
+- @nivo/tooltip
+- @nivo/legends
+- @react-spring/web
+- @types/d3-scale
+- @types/d3-shape
+- d3-scale
+- d3-shape
+
 ## Acknowledgements
 
  - [The Nivo Project](https://github.com/plouc/nivo)
